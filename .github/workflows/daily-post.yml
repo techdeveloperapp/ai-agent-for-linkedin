@@ -1,0 +1,18 @@
+name: Daily AI LinkedIn Post
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 3 * * *" # 09:00 IST
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger daily post generation
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
+        run: |
+          curl --fail -X POST "$API_URL/api/posts/generate" \
+            -H "X-API-Key: $API_KEY"
